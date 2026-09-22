@@ -1,5 +1,5 @@
 import { Text } from "react-native";
-import { SafeAreaView } form "react-native-safe-area-context"
+import { SafeAreaView } form "react-native-safe-area-context";
 
 export default function TabPengaturan() {
     return (
