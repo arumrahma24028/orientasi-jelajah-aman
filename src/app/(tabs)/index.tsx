@@ -90,44 +90,45 @@ export default function HalamanUtama() {
         }
     }
 
-    return (
-        <SafeAreaView
-            style={{
-                flex: 1,
-                padding: 16,
-                gap: 16,
-            }}
-        >
-            <SearchBox onCari={setTeksCari} />
+return (
+    <SafeAreaView
+        style={{
+            flex: 1,
+            padding: 16,
+            gap: 16,
+        }}
+    >
+        <SearchBox onCari={setTeksCari} />
 
-            {hasilPencarian.map((kota) => (
-                <TouchableOpacity
-                    key={kota.id}
-                    onPress={() => pilihKota(kota)}
-                >
-                    <Text>{kota.name}</Text>
-                </TouchableOpacity>
-            ))}
+        {hasilPencarian.map((kota) => (
+            <TouchableOpacity
+                key={kota.id}
+                onPress={() => pilihKota(kota)}
+            >
+                <Text>{kota.name}</Text>
+            </TouchableOpacity>
+        ))}
 
-            {sedangMemuat && <ActivityIndicator />}
+        {sedangMemuat && <ActivityIndicator />}
 
-            {pesanError && (
-                <View>
-                    <Text>{pesanError}</Text>
+        {pesanError && (
+            <View>
+                <Text>{pesanError}</Text>
 
-                    <Button
-                        title="Coba Lagi"
-                        onPress={() =>
-                            kotaTerpilih && pilihKota(kotaTerpilih)
-                        }
-                    />
-                </View>
-            )}
+                <Button
+                    title="Coba Lagi"
+                    onPress={() =>
+                        kotaTerpilih && pilihKota(kotaTerpilih)
+                    }
+                />
+            </View>
+        )}
 
-            {cuaca &&
-                kualitasUdara &&
-                kotaTerpilih &&
-                !sedangMemuat && (
+        {cuaca &&
+            kualitasUdara &&
+            kotaTerpilih &&
+            !sedangMemuat && (
+                <>
                     <WeatherCard
                         kota={kotaTerpilih.name}
                         suhu={cuaca.saatIni.suhu}
@@ -136,22 +137,32 @@ export default function HalamanUtama() {
                         )}
                         indeksAQI={kualitasUdara.indeksAQI}
                     />
-                )}
 
-            {cuaca && (
-                <Text
-                    style={{
-                        fontSize: 12,
-                        color: "#888",
-                    }}
-                >
-                    Kondisi:{" "}
-                    {labelKodeCuaca(cuaca.saatIni.kodeCuaca)} • Angin{" "}
-                    {cuaca.saatIni.kecepatanAngin} km/j
-                </Text>
+                    <Text>
+                        Suhu maksimal:{" "}
+                        {cuaca.harian.suhuMaksimal[0]}°C
+                    </Text>
+
+                    <Text>
+                        Suhu minimal:{" "}
+                        {cuaca.harian.suhuMinimal[0]}°C
+                    </Text>
+                </>
             )}
 
-            <AtribusiCuaca />
-        </SafeAreaView>
-    );
-}
+        {cuaca && (
+            <Text style={{ fontSize: 12, color: "#888" }}>
+                Kondisi:{" "}
+                {labelKodeCuaca(cuaca.saatIni.kodeCuaca)} • Angin{" "}
+                {cuaca.saatIni.kecepatanAngin} km/j
+            </Text>
+        )}
+
+        <Text style={{ fontSize: 12, color: "#888" }}>
+            PM2.5: {kualitasUdara?.pm25} µg/m³ • PM10:{" "}
+            {kualitasUdara?.pm10} µg/m³
+        </Text>
+
+        <AtribusiCuaca />
+    </SafeAreaView>
+);
